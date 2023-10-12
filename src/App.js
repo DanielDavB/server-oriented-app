@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+
+import { useFirebaseApp } from 'reactfire';
+import 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {
   MDBContainer,
   MDBTabs,
@@ -14,8 +18,13 @@ import {
 from 'mdb-react-ui-kit' ;
 
 function App() {
-
+  const auth = getAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [justifyActive, setJustifyActive] = useState('tab1');;
+  const submit = async()=>{
+    
+  }
 
   const handleJustifyClick = (value) => {
     if (value === justifyActive) {
@@ -48,36 +57,18 @@ function App() {
           <div className="text-center mb-3">
             <p>Sign in with:</p>
 
-            <div className='d-flex justify-content-between mx-auto' style={{width: '40%'}}>
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='facebook-f' size="sm"/>
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='twitter' size="sm"/>
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='google' size="sm"/>
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='github' size="sm"/>
-              </MDBBtn>
-            </div>
-
-            <p className="text-center mt-3">or:</p>
+            
           </div>
 
-          <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email'/>
-          <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password'/>
+          <MDBInput wrapperClass='mb-4' label='Email address' id='email' type='email' onChange={(ev)=>setEmail(ev.target.value)}/>
+          <MDBInput wrapperClass='mb-4' label='Password' id='password' type='password' onChange={(ev)=>setPassword(ev.target.value)}/>
 
           <div className="d-flex justify-content-between mx-4 mb-4">
             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
             <a href="!#">Forgot password?</a>
           </div>
 
-          <MDBBtn className="mb-4 w-100">Sign in</MDBBtn>
+          <MDBBtn className="mb-4 w-100" onClick={submit}>Sign in</MDBBtn>
           <p className="text-center">Not a member? <a href="#!">Register</a></p>
 
         </MDBTabsPane>
@@ -85,27 +76,8 @@ function App() {
         <MDBTabsPane show={justifyActive === 'tab2'}>
 
           <div className="text-center mb-3">
-            <p>Sign un with:</p>
+            <p>Sign up with:</p>
 
-            <div className='d-flex justify-content-between mx-auto' style={{width: '40%'}}>
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='facebook-f' size="sm"/>
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='twitter' size="sm"/>
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='google' size="sm"/>
-              </MDBBtn>
-
-              <MDBBtn tag='a' color='none' className='m-1' style={{ color: '#1266f1' }}>
-                <MDBIcon fab icon='github' size="sm"/>
-              </MDBBtn>
-            </div>
-
-            <p className="text-center mt-3">or:</p>
           </div>
 
           <MDBInput wrapperClass='mb-4' label='Name' id='form1' type='text'/>
