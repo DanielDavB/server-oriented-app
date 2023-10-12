@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-
-import { useFirebaseApp } from 'reactfire';
 import 'firebase/auth';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { firebaseAuth } from './firebase-config';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
 import {
   MDBContainer,
   MDBTabs,
@@ -15,15 +15,25 @@ import {
   MDBInput,
   MDBCheckbox
 }
-from 'mdb-react-ui-kit' ;
+  from 'mdb-react-ui-kit';
 
 function App() {
-  const auth = getAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [justifyActive, setJustifyActive] = useState('tab1');;
-  const submit = async()=>{
-    
+  const submit = async () => {
+    createUserWithEmailAndPassword(firebaseAuth, email, password)
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
   }
 
   const handleJustifyClick = (value) => {
@@ -57,18 +67,18 @@ function App() {
           <div className="text-center mb-3">
             <p>Sign in with:</p>
 
-            
+
           </div>
 
-          <MDBInput wrapperClass='mb-4' label='Email address' id='email' type='email' onChange={(ev)=>setEmail(ev.target.value)}/>
-          <MDBInput wrapperClass='mb-4' label='Password' id='password' type='password' onChange={(ev)=>setPassword(ev.target.value)}/>
+          <MDBInput wrapperClass='mb-4' label='Email address' id='email' type='email'  />
+          <MDBInput wrapperClass='mb-4' label='Password' id='password' type='password'  />
 
           <div className="d-flex justify-content-between mx-4 mb-4">
             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
             <a href="!#">Forgot password?</a>
           </div>
 
-          <MDBBtn className="mb-4 w-100" onClick={submit}>Sign in</MDBBtn>
+          <MDBBtn className="mb-4 w-100" >Sign in</MDBBtn>
           <p className="text-center">Not a member? <a href="#!">Register</a></p>
 
         </MDBTabsPane>
@@ -80,16 +90,16 @@ function App() {
 
           </div>
 
-          <MDBInput wrapperClass='mb-4' label='Name' id='form1' type='text'/>
-          <MDBInput wrapperClass='mb-4' label='Username' id='form1' type='text'/>
-          <MDBInput wrapperClass='mb-4' label='Email' id='form1' type='email'/>
-          <MDBInput wrapperClass='mb-4' label='Password' id='form1' type='password'/>
+          <MDBInput wrapperClass='mb-4' label='Name' id='form1' type='text' />
+          <MDBInput wrapperClass='mb-4' label='Username' id='form1' type='text' />
+          <MDBInput wrapperClass='mb-4' label='Email' id='email' type='email' onChange={(ev) => setEmail(ev.target.value)}/>
+          <MDBInput wrapperClass='mb-4' label='Password' id='password' type='password' onChange={(ev) => setPassword(ev.target.value)}/>
 
           <div className='d-flex justify-content-center mb-4'>
             <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='I have read and agree to the terms' />
           </div>
 
-          <MDBBtn className="mb-4 w-100">Sign up</MDBBtn>
+          <MDBBtn className="mb-4 w-100" onClick={submit}>Sign up</MDBBtn>
 
         </MDBTabsPane>
 
